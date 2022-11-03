@@ -6,7 +6,7 @@ pipeline
     agent any
     environment
     {
-        imagename = "api2pssale:5.22003"
+        imagename = "api2pssale:5.20002.3.01"
         dockerImage = ''
     }
     stages{
@@ -59,7 +59,7 @@ pipeline
                 echo 'Run Container...'
                 script
                 {
-                    bat 'docker run -d -p 8999:80 --name api2pssale api2pssale:5.22003 '
+                    bat 'docker run -d -p 8999:80 --name api2pssale api2pssale:5.20002.3.01 '
                 }
             }
         }
