@@ -1,4 +1,4 @@
-def githubRepo = 'https://github.com/PSDekbaanbaan/API2PSSaleLocal.git'
+def githubRepo = 'https://github.com/AdaDevSecOps/API2PSSale.git'
 def githubBranch = 'main'
 
 pipeline
