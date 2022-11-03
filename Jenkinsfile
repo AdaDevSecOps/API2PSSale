@@ -1,13 +1,22 @@
+def githubRepo = 'https://github.com/PSDekbaanbaan/API2PSSaleLocal.git'
+def githubBranch = 'main'
 
 pipeline
 {
     agent any
+    environment
+    {
+        imagename = "api2pssale:5.22003"
+        dockerImage = ''
+    }
     stages{
         stage("Git Clone")
         {
             steps
             {
                 echo "========Cloning Git========"
+                git url: githubRepo,
+                    branch: githubBranch
             }
             post
             {
@@ -21,22 +30,36 @@ pipeline
                 }
             }
         }
-
-        stage('Docker Compose')
+        stage('Build Image')
         {
             steps
             {
-                echo "========Docker Building========"
-            }
-            post
-            {
-                success
+                echo 'Building...'
+                script
                 {
-                    echo "========Docker Compose successfully========"
+                    dockerImage = docker.build imagename
                 }
-                failure
+            }
+        }
+        stage('Remove Container')
+        {
+            steps
+            {
+                echo 'Remove Container...'
+                script
                 {
-                    echo "========Docker Compose failed========"
+                    bat 'docker rm -f api2pssale" '
+                }
+            }
+        }
+        stage('Run Container')
+        {
+            steps
+            {
+                echo 'Run Container...'
+                script
+                {
+                    bat 'docker run -d -p 8999:80 --name api2pssale api2pssale:5.22003 '
                 }
             }
         }
